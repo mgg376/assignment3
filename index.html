@@ -1,180 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Add a patterned line to a map</title>
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-<link href="https://api.mapbox.com/mapbox-gl-js/v3.11.0/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v3.11.0/mapbox-gl.js"></script>
-<style>
-body { margin: 0; padding: 0; }
-#map { position: absolute; top: 0; bottom: 0; width: 100%; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>NYU Food Spots Map</title>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.11.0/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.11.0/mapbox-gl.js"></script>
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    .marker-popup {
+      font-family: sans-serif;
+      font-size: 14px;
+      padding: 4px 8px;
+    }
+    .popup-title {
+      font-weight: bold;
+    }
+    .popup-description {
+      font-size: 13px;
+      color: #555;
+    }
+
+  </style>
 </head>
 <body>
-<div id="map"></div>
-<script>
-	// TO MAKE THE MAP APPEAR YOU MUST
-	// ADD YOUR ACCESS TOKEN FROM
-	// https://account.mapbox.com
-	mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
-    const map = (window.map = new mapboxgl.Map({
-        container: 'map',
-        center: [13.38879, 52.5191],
-        zoom: 16.9,
-        pitch: 30,
-        bearing: 50,
-        style: 'mapbox://styles/mapbox/streets-v12',
-        minZoom: 15,
-        maxZoom: 22
-    }));
+  <div id="map"></div>
 
-    map.on('style.load', () => {
-        map.loadImage(
-            'https://docs.mapbox.com/mapbox-gl-js/assets/pattern-dot.png',
-            (error, image) => {
-                if (error) throw error;
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWdnMzc2IiwiYSI6ImNtOWF3dmk3MzBhNWQya3EzZHpyMmQ4ZDIifQ.WXxAjUmDcjYD8K0-iKGGzQ';
 
-                map.addImage('pattern-dot', image);
-
-                map.addSource('route-data', {
-                    type: 'geojson',
-                    lineMetrics: true,
-                    data: {
-                        'type': 'Feature',
-                        'properties': {},
-                        'geometry': {
-                            'coordinates': [
-                                [13.390297, 52.518188],
-                                [13.39042, 52.518201],
-                                [13.390322, 52.518754],
-                                [13.388698, 52.518654],
-                                [13.388707, 52.518714],
-                                [13.3887, 52.518762],
-                                [13.388707, 52.518824],
-                                [13.388574, 52.519737],
-                                [13.388518, 52.519735],
-                                [13.388459, 52.519845],
-                                [13.388546, 52.519848],
-                                [13.388638, 52.51987],
-                                [13.389079, 52.519895],
-                                [13.38907, 52.519935]
-                            ],
-                            'type': 'LineString'
-                        }
-                    }
-                });
-
-                const lineBaseWidth = 14;
-
-                map.addLayer({
-                    id: 'route-line',
-                    type: 'line',
-                    source: 'route-data',
-                    layout: {
-                        'line-join': 'none'
-                    },
-                    paint: {
-                        'line-pattern': 'pattern-dot',
-                        'line-width': [
-                            'interpolate',
-                            ['exponential', 2],
-                            ['zoom'],
-                            0,
-                            lineBaseWidth * 1,
-                            0.9999,
-                            lineBaseWidth * 2,
-                            1,
-                            lineBaseWidth * 1,
-                            1.9999,
-                            lineBaseWidth * 2,
-                            2,
-                            lineBaseWidth * 1,
-                            2.9999,
-                            lineBaseWidth * 2,
-                            3,
-                            lineBaseWidth * 1,
-                            3.9999,
-                            lineBaseWidth * 2,
-                            4,
-                            lineBaseWidth * 1,
-                            4.9999,
-                            lineBaseWidth * 2,
-                            5,
-                            lineBaseWidth * 1,
-                            5.9999,
-                            lineBaseWidth * 2,
-                            6,
-                            lineBaseWidth * 1,
-                            6.9999,
-                            lineBaseWidth * 2,
-                            7,
-                            lineBaseWidth * 1,
-                            7.9999,
-                            lineBaseWidth * 2,
-                            8,
-                            lineBaseWidth * 1,
-                            8.9999,
-                            lineBaseWidth * 2,
-                            9,
-                            lineBaseWidth * 1,
-                            9.9999,
-                            lineBaseWidth * 2,
-                            10,
-                            lineBaseWidth * 1,
-                            10.9999,
-                            lineBaseWidth * 2,
-                            11,
-                            lineBaseWidth * 1,
-                            11.9999,
-                            lineBaseWidth * 2,
-                            12,
-                            lineBaseWidth * 1,
-                            12.9999,
-                            lineBaseWidth * 2,
-                            13,
-                            lineBaseWidth * 1,
-                            13.9999,
-                            lineBaseWidth * 2,
-                            14,
-                            lineBaseWidth * 1,
-                            14.9999,
-                            lineBaseWidth * 2,
-                            15,
-                            lineBaseWidth * 1,
-                            15.9999,
-                            lineBaseWidth * 2,
-                            16,
-                            lineBaseWidth * 1,
-                            16.9999,
-                            lineBaseWidth * 2,
-                            17,
-                            lineBaseWidth * 1,
-                            17.9999,
-                            lineBaseWidth * 2,
-                            18,
-                            lineBaseWidth * 1,
-                            18.9999,
-                            lineBaseWidth * 2,
-                            19,
-                            lineBaseWidth * 1,
-                            19.9999,
-                            lineBaseWidth * 2,
-                            20,
-                            lineBaseWidth * 1,
-                            20.9999,
-                            lineBaseWidth * 2,
-                            21,
-                            lineBaseWidth * 1,
-                            22,
-                            lineBaseWidth * 2
-                        ]
-                    }
-                });
-            }
-        );
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v12',
+      center: [-73.99364, 40.72828],
+      zoom: 15,
+      pitch: 46,
+      minZoom: 16,
+      maxZoom: 20
     });
-</script>
 
+    const foodSpots = [
+      {
+        name: "Sushi Mercer 🇯🇵",
+        longitude: -73.99382944,
+        latitude: 40.73034046,
+        description: "Favorite Dish: Salmon ikura don"
+      },
+      {
+        name: "Chipotle 🇲🇽",
+        longitude: -73.99344522,
+        latitude: 40.73114167,
+        description: "Everything chicken bowl"
+      },
+      {
+        name: "Osakana 🇯🇵",
+        longitude: -73.98720741,
+        latitude: 40.72829963,
+        description: "Chirashi deluxe"
+      },
+      {
+        name: "Le Fournil 🇫🇷",
+        longitude: -73.98838929,
+        latitude: 40.72788582,
+        description: "Mortadella, ricotta, pesto sandwich"
+      },
+      {
+        name: "Pret 🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+        longitude: -73.99247279,
+        latitude: 40.73010893,
+        description: "Iced coffee + brownie cookie"
+      },
+      {
+        name: "Springbone 🇺🇸",
+        longitude: -73.99923285094354,
+        latitude: 40.729997241108585,
+        description: "Salmon bowl + liquid gold broth"
+      },
+      {
+        name: "Work 👩🏻‍💻",
+        longitude: -73.9942802423407,
+        latitude: 40.72923658808855,
+        description: "No description needed"
+      }
+    ];
+
+    foodSpots.forEach(spot => {
+      const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+        `<div class="marker-popup">
+          <div class="popup-title">${spot.name}</div>
+          <div class="popup-description">${spot.description}</div>
+        </div>`
+      );
+
+      // Set color based on spot name
+      const markerColor = spot.name === "Work" ? 'blue' : 'orange'; // Blue for "Work", Orange for others
+
+      // Create marker with custom color
+      new mapboxgl.Marker({
+        color: markerColor, // Color of the marker
+        draggable: false // Make marker non-draggable if needed
+      })
+        .setLngLat([spot.longitude, spot.latitude])
+        .setPopup(popup)
+        .addTo(map);
+    });
+  </script>
 </body>
 </html>
