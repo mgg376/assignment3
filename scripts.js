@@ -33,4 +33,3 @@ foodSpots.forEach(spot => {
         .setPopup(popup)
         .addTo(map);
 });
-

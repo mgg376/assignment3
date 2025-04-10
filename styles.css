@@ -1,0 +1,41 @@
+#map-title {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px 20px;
+    border-radius: 8px;
+    font-size: 40px;
+    font-weight: bold;
+    font-family: 'Times New Roman';
+    z-index: 1;
+  }
+  
+  #map-instructions {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: sans-serif;
+    z-index: 1;
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  
+  

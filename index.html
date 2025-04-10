@@ -7,30 +7,72 @@
   <link href="https://api.mapbox.com/mapbox-gl-js/v3.11.0/mapbox-gl.css" rel="stylesheet">
   <script src="https://api.mapbox.com/mapbox-gl-js/v3.11.0/mapbox-gl.js"></script>
   <style>
-    html, body {
-      height: 100%;
+    body {
       margin: 0;
       padding: 0;
     }
-    body { margin: 0; padding: 0; }
-    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+
+    /* Popup styles */
     .marker-popup {
       font-family: sans-serif;
       font-size: 14px;
       padding: 4px 8px;
     }
+
     .popup-title {
       font-weight: bold;
     }
+
     .popup-description {
       font-size: 13px;
       color: #555;
     }
+
+    /* Title at top center */
+    #map-title {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      font-family: sans-serif;
+      z-index: 1;
+    }
+
+    /* Instructions top left */
+    #map-instructions {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: sans-serif;
+      z-index: 1;
+    }
   </style>
 </head>
 <body>
+  <!-- Title and Instructions -->
+  <div id="map-title">Food places I frequent at work</div>
+  <div id="map-instructions">Click the marker to see my go-to order</div>
+
+  <!-- Map Container -->
   <div id="map"></div>
 
+  <!-- Map Script -->
   <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoibWdnMzc2IiwiYSI6ImNtOWF3dmk3MzBhNWQya3EzZHpyMmQ4ZDIifQ.WXxAjUmDcjYD8K0-iKGGzQ';
 
@@ -70,7 +112,7 @@
         description: "Mortadella, ricotta, pesto sandwich"
       },
       {
-        name: "Pret 🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+        name: "Pret 🏴",
         longitude: -73.99247279,
         latitude: 40.73010893,
         description: "Iced coffee + brownie cookie"
@@ -97,14 +139,9 @@
         </div>`
       );
 
-      // Set color based on spot name
-      const markerColor = spot.name === "Work" ? 'blue' : '#9915d6'; // Blue for "Work", Orange for others
+      const markerColor = spot.name === "Work" ? 'blue' : 'purple';
 
-      // Create marker with custom color
-      new mapboxgl.Marker({
-        color: markerColor, // Color of the marker
-        draggable: false // Make marker non-draggable if needed
-      })
+      new mapboxgl.Marker({ color: markerColor })
         .setLngLat([spot.longitude, spot.latitude])
         .setPopup(popup)
         .addTo(map);
